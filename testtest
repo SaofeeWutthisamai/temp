@@ -40,7 +40,9 @@ getStorageLensID("123456789012");
 
 
 
+import { CloudWatchClient, GetMetricDataCommand } from "@aws-sdk/client-cloudwatch";
 
+const cloudWatchClient = new CloudWatchClient({ region: "us-east-1" });
 
 async function getBucketSize(bucketName) {
     const params = {
