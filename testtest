@@ -31,3 +31,49 @@ async function getStorageLensID(accountId) {
 }
 
 getStorageLensID("123456789012");
+
+
+
+
+
+
+
+
+
+
+
+async function getBucketSize(bucketName) {
+    const params = {
+        MetricDataQueries: [
+            {
+                Id: "bucketSize",
+                MetricStat: {
+                    Metric: {
+                        Namespace: "AWS/S3",
+                        MetricName: "BucketSizeBytes",
+                        Dimensions: [
+                            { Name: "BucketName", Value: bucketName },
+                            { Name: "StorageType", Value: "StandardStorage" }
+                        ]
+                    },
+                    Period: 86400, // Data updates once per day
+                    Stat: "Average"
+                }
+            }
+        ],
+        StartTime: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Get past 7 days (optional)
+        EndTime: new Date()
+    };
+
+    try {
+        const data = await cloudWatchClient.send(new GetMetricDataCommand(params));
+        console.log(`Bucket: ${bucketName}, Size (Bytes):`, data.MetricDataResults[0]?.Values[0] || "No Data Available");
+    } catch (error) {
+        console.error("Error fetching bucket size:", error);
+    }
+}
+
+
+
+
+cloudwatch:ListMetrics
