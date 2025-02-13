@@ -1,0 +1,33 @@
+import { S3ControlClient, GetStorageLensConfigurationCommand } from "@aws-sdk/client-s3-control";
+
+const client = new S3ControlClient({ region: "us-east-1" });
+
+async function getStorageLensData(accountId, storageLensId) {
+    const params = { AccountId: accountId, StorageLensConfigurationId: storageLensId };
+    const data = await client.send(new GetStorageLensConfigurationCommand(params));
+    console.log("Storage Lens Data:", data);
+}
+
+getStorageLensData("123456789012", "your-storage-lens-id");
+
+
+
+
+
+
+import { S3ControlClient, ListStorageLensConfigurationsCommand } from "@aws-sdk/client-s3-control";
+
+const client = new S3ControlClient({ region: "us-east-1" });
+
+async function getStorageLensID(accountId) {
+    const params = { AccountId: accountId };
+    const data = await client.send(new ListStorageLensConfigurationsCommand(params));
+
+    if (data.StorageLensConfigurationList && data.StorageLensConfigurationList.length > 0) {
+        console.log("Storage Lens ID:", data.StorageLensConfigurationList[0].Id);
+    } else {
+        console.log("No Storage Lens configurations found.");
+    }
+}
+
+getStorageLensID("123456789012");
