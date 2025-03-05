@@ -11,12 +11,12 @@ pipeline {
             steps {
                 script {
                     def credsJson = sh(script: """
-                        aws sts assume-role --role-arn $AWS_ROLE_ARN --role-session-name JenkinsDeploy | jq -r '.Credentials'
+                        aws sts assume-role --role-arn $AWS_ROLE_ARN --role-session-name JenkinsDeploy
                     """, returnStdout: true).trim()
 
-                    env.AWS_ACCESS_KEY_ID = sh(script: "echo '${credsJson}' | jq -r '.AccessKeyId'", returnStdout: true).trim()
-                    env.AWS_SECRET_ACCESS_KEY = sh(script: "echo '${credsJson}' | jq -r '.SecretAccessKey'", returnStdout: true).trim()
-                    env.AWS_SESSION_TOKEN = sh(script: "echo '${credsJson}' | jq -r '.SessionToken'", returnStdout: true).trim()
+                    env.AWS_ACCESS_KEY_ID = sh(script: "echo '${credsJson}' | grep -o '\"AccessKeyId\": \"[^\"]*\"' | cut -d '\"' -f 4", returnStdout: true).trim()
+                    env.AWS_SECRET_ACCESS_KEY = sh(script: "echo '${credsJson}' | grep -o '\"SecretAccessKey\": \"[^\"]*\"' | cut -d '\"' -f 4", returnStdout: true).trim()
+                    env.AWS_SESSION_TOKEN = sh(script: "echo '${credsJson}' | grep -o '\"SessionToken\": \"[^\"]*\"' | cut -d '\"' -f 4", returnStdout: true).trim()
                 }
             }
         }
