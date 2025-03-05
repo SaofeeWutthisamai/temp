@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_ROLE_ARN = 'arn:aws:iam::<TARGET_ACCOUNT_ID>:role/<TARGET_ROLE>'
+        AWS_REGION = 'us-east-1'
+    }
+
+    stages {
+        stage('Assume Role') {
+            steps {
+                script {
+                    def credsJson = sh(script: """
+                        aws sts assume-role --role-arn $AWS_ROLE_ARN --role-session-name JenkinsDeploy | jq -r '.Credentials'
+                    """, returnStdout: true).trim()
+
+                    env.AWS_ACCESS_KEY_ID = sh(script: "echo '${credsJson}' | jq -r '.AccessKeyId'", returnStdout: true).trim()
+                    env.AWS_SECRET_ACCESS_KEY = sh(script: "echo '${credsJson}' | jq -r '.SecretAccessKey'", returnStdout: true).trim()
+                    env.AWS_SESSION_TOKEN = sh(script: "echo '${credsJson}' | jq -r '.SessionToken'", returnStdout: true).trim()
+                }
+            }
+        }
+
+        stage('Deploy Lambda') {
+            steps {
+                script {
+                    sh """
+                        AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID} \
+                        AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY} \
+                        AWS_SESSION_TOKEN=${env.AWS_SESSION_TOKEN} \
+                        aws lambda update-function-code --function-name myLambdaFunction \
+                        --zip-file fileb://lambda-package.zip --region $AWS_REGION
+                    """
+                }
+            }
+        }
+    }
+}
