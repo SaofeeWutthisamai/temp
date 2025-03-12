@@ -80,3 +80,54 @@ async function getBucketSize(bucketName) {
 aws codecommit list-repositories --query 'repositories[*].repositoryName' --profile FWDTH_Prod2 
 
  aws codecommit get-repository --repository-name "$repo" --query 'repositoryMetadata.cloneUrlHttp'  --profile FWDTH_Prod2 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Set AWS Profile
+$AWS_PROFILE = "FWDTH_Prod2"
+
+# Output CSV File
+$OUTPUT_FILE = "codecommit_repos.csv"
+
+# Print Header
+"RepositoryName,RepositoryId,CloneUrlHttp,CloneUrlSsh,Arn,CreatedTime" | Out-File -FilePath $OUTPUT_FILE -Encoding utf8
+
+# Get all repository names
+$repos = aws codecommit list-repositories --query "repositories[*].repositoryName" --output json --profile $AWS_PROFILE | ConvertFrom-Json
+
+# Loop through each repository and get details
+foreach ($repo in $repos) {
+    Write-Host "Fetching details for: $repo"
+
+    # Get repository details in JSON format
+    $repo_details = aws codecommit get-repository --repository-name $repo --profile $AWS_PROFILE --output json | ConvertFrom-Json
+
+    # Extract details
+    $repo_name = $repo_details.repositoryMetadata.repositoryName
+    $repo_id = $repo_details.repositoryMetadata.repositoryId
+    $clone_url_http = $repo_details.repositoryMetadata.cloneUrlHttp
+    $clone_url_ssh = $repo_details.repositoryMetadata.cloneUrlSsh
+    $arn = $repo_details.repositoryMetadata.Arn
+    $created_time = $repo_details.repositoryMetadata.creationDate
+
+    # Append to CSV file
+    "$repo_name,$repo_id,$clone_url_http,$clone_url_ssh,$arn,$created_time" | Out-File -FilePath $OUTPUT_FILE -Encoding utf8 -Append
+}
+
+Write-Host "✅ Export completed: $OUTPUT_FILE"
