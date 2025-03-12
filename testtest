@@ -77,5 +77,6 @@ async function getBucketSize(bucketName) {
 
 
 
+aws codecommit list-repositories --query 'repositories[*].repositoryName' --profile FWDTH_Prod2 
 
-cloudwatch:ListMetrics
+ aws codecommit get-repository --repository-name "$repo" --query 'repositoryMetadata.cloneUrlHttp'  --profile FWDTH_Prod2 
