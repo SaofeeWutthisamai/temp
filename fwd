@@ -6,7 +6,7 @@ Tax ID : 0107563000304
 
 
 sudo mkdir /mnt/recovery
-sudo mount /dev/xvdf1 /mnt/recovery
+sudo mount /dev/sdb /mnt/recovery
 
 
 
