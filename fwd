@@ -9,32 +9,9 @@ sudo mkdir /mnt/recovery
 sudo mount /dev/sdb /mnt/recovery
 
 
-
-
-
-for dir in /dev /dev/pts /proc /sys /run; do
-    sudo mount --bind $dir /mnt/recovery$dir
-done
-
-sudo chroot /mnt/recovery
-
-
-
-
-
-# ติดตั้ง GRUB ใหม่
-grub-install /dev/xvdf
-
-# สร้าง config ใหม่
-update-grub
-
-
-
+sudo dd if=/dev/nvme0n1 of=/dev/nvme1n1 bs=512 count=1 conv=notrunc
 
 
 
 exit
-for dir in /dev/pts /dev /proc /sys /run; do
-    sudo umount /mnt/recovery$dir
-done
 sudo umount /mnt/recovery
