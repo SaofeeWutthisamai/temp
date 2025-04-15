@@ -2,3 +2,39 @@ FWD Life Insurance Public Company Limited
 No. 6 O-NES Tower, 4th, 22nd-23rd Floors, Soi Sukhumvit 6
 Khlong Toei Sub-District, Khlong Toei District, Bangkok 10110
 Tax ID : 0107563000304
+
+
+
+sudo mkdir /mnt/recovery
+sudo mount /dev/xvdf1 /mnt/recovery
+
+
+
+
+
+for dir in /dev /dev/pts /proc /sys /run; do
+    sudo mount --bind $dir /mnt/recovery$dir
+done
+
+sudo chroot /mnt/recovery
+
+
+
+
+
+# ติดตั้ง GRUB ใหม่
+grub-install /dev/xvdf
+
+# สร้าง config ใหม่
+update-grub
+
+
+
+
+
+
+exit
+for dir in /dev/pts /dev /proc /sys /run; do
+    sudo umount /mnt/recovery$dir
+done
+sudo umount /mnt/recovery
