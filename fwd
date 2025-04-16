@@ -58,10 +58,10 @@ sudo chroot /mnt/repaire /bin/bash
 
 lsblk
 
+ls /boot
 
 
-
-grub-install /dev/nvme1n2p1
+grub-install --target=i386-pc /dev/nvme1n2
 
 
 
@@ -72,7 +72,7 @@ update-grub
 
 
 
-
+exit
 for dir in run sys proc dev; do
   sudo umount /mnt/repaire/$dir
 done
