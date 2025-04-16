@@ -114,6 +114,15 @@ PasswordAuthentication no
 # the setting of "PermitRootLogin without-password".
 # PAM authentication, then enable this but set PasswordAuthentication
 
+sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/; s/^PasswordAuthentication.*/PasswordAuthentication yes/' /mnt/repaire/etc/ssh/sshd_config
+
+
+
+
+
+
+
+
 cat /mnt/repaire/var/log/cloud-init.log | grep ssh
 cat /mnt/repaire/var/log/syslog | grep ssh
 
