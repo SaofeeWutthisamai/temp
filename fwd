@@ -75,8 +75,8 @@ update-grub
 
 
 for dir in run sys proc dev; do
-  sudo umount /mnt/recovery/$dir
+  sudo umount /mnt/repaire/$dir
 done
 
-sudo umount /mnt/recovery
+sudo umount /mnt/repaire
 
