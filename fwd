@@ -99,12 +99,19 @@ sudo umount /mnt/repaire
 
 cat /mnt/repaire/etc/ssh/sshd_config
 
-cat /mnt/recovery/var/log/cloud-init.log | grep ssh
-cat /mnt/recovery/var/log/syslog | grep ssh
+root@cml-controller:/usr/bin# cat /mnt/repaire/etc/ssh/sshd_config | grep -Ei 'port|listen|address'
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#GatewayPorts no
+
+cat /mnt/repaire/var/log/cloud-init.log | grep ssh
+cat /mnt/repaire/var/log/syslog | grep ssh
 
 
 
 
-cat /mnt/recovery/etc/fstab
+cat /mnt/repaire/etc/fstab
 
 
