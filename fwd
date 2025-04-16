@@ -38,13 +38,13 @@ sudo umount /mnt/recovery
 
 
 sudo mkdir -p /mnt/repair
-sudo mount /dev/nvme1n1p1 /mnt/repair
+sudo mount /dev/nvme1n1p1 /mnt/repaire
 
 
 
 
 for dir in dev proc sys run; do
-  sudo mount --bind /$dir /mnt/repair/$dir
+  sudo mount --bind /$dir /mnt/repaire/$dir
 done
 
 
