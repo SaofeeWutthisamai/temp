@@ -15,3 +15,34 @@ sudo dd if=/dev/nvme0n1 of=/dev/nvme1n1 bs=512 count=1 conv=notrunc
 
 exit
 sudo umount /mnt/recovery
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wget https://s3.amazonaws.com/ec2rescue-linux/ec2rl.tgz
+tar -xvzf ec2rl.tgz
+cd ec2rl*
+
+
+
+
+sudo mkdir -p /mnt/repair
+sudo mount /dev/nvme1n1p1 /mnt/repair
+
+
+
+
+sudo ./ec2rl run --destdir /mnt/repair --modules grub,network,fstab
