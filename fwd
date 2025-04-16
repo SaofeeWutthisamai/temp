@@ -116,6 +116,28 @@ PasswordAuthentication no
 
 sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/; s/^PasswordAuthentication.*/PasswordAuthentication yes/' /mnt/repaire/etc/ssh/sshd_config
 
+for dir in dev proc sys run; do
+  sudo mount --bind /$dir /mnt/repaire/$dir
+done
+
+sudo chroot /mnt/repaire /bin/bash
+
+systemctl enable ssh
+exit
+
+for dir in run sys proc dev; do
+  sudo umount /mnt/repaire/$dir
+done
+
+sudo umount /mnt/repaire
+
+
+
+
+
+
+
+
 
 
 
