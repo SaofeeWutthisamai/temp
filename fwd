@@ -50,7 +50,7 @@ done
 
 
 
-sudo chroot /mnt/recovery /bin/bash
+sudo chroot /mnt/repaire /bin/bash
 
 
 
