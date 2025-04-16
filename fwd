@@ -38,7 +38,7 @@ sudo umount /mnt/recovery
 
 
 sudo mkdir -p /mnt/repair
-sudo mount /dev/nvme1n1p1 /mnt/repaire
+sudo mount /dev/nvme1n2p1 /mnt/repaire
 
 
 
@@ -61,7 +61,7 @@ lsblk
 
 
 
-grub-install /dev/nvme1n1
+grub-install /dev/nvme1n2p1
 
 
 
@@ -73,8 +73,8 @@ update-grub
 
 
 
-for dir in dev proc sys run; do
-  sudo unmount --bind /$dir /mnt/repaire/$dir
+for dir in run sys proc dev; do
+  sudo umount /mnt/repaire/$dir
 done
 
 sudo umount /mnt/repaire
