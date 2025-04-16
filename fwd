@@ -94,3 +94,17 @@ sudo umount /mnt/repaire
 [[0;32m  OK  [0m] Finished [0;1;39mOpenVPN service[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mGRUB failed boot detection[0m.
 [[0;32m  OK  [0m] Finished [0;1;39mEC2 Instance Connect Host Key Harvesting[0m.
+
+
+
+cat /mnt/repaire/etc/ssh/sshd_config
+
+cat /mnt/recovery/var/log/cloud-init.log | grep ssh
+cat /mnt/recovery/var/log/syslog | grep ssh
+
+
+
+
+cat /mnt/recovery/etc/fstab
+
+
