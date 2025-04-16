@@ -106,6 +106,14 @@ root@cml-controller:/usr/bin# cat /mnt/repaire/etc/ssh/sshd_config | grep -Ei 'p
 #ListenAddress ::
 #GatewayPorts no
 
+
+root@cml-controller:/usr/bin# cat /mnt/repaire/etc/ssh/sshd_config | grep -Ei 'permitrootlogin|passwordauthentication'
+#PermitRootLogin prohibit-password
+PasswordAuthentication no
+# PasswordAuthentication.  Depending on your PAM configuration,
+# the setting of "PermitRootLogin without-password".
+# PAM authentication, then enable this but set PasswordAuthentication
+
 cat /mnt/repaire/var/log/cloud-init.log | grep ssh
 cat /mnt/repaire/var/log/syslog | grep ssh
 
